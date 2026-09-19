@@ -471,6 +471,17 @@ jobs:
       - name: Patch config for Android
         run: sed -i 's/^touch_input = false/touch_input = true/' config.toml
 
+      - name: Inspect signing configuration
+        working-directory: android
+        run: |
+          echo "keystore.properties:"
+          cat keystore.properties | sed \
+            -e 's/storePassword=.*/storePassword=***MASKED***/' \
+            -e 's/keyPassword=.*/keyPassword=***MASKED***/'
+
+          echo "Keystore exists:"
+          ls -lh yataidon-release.jks
+
       - name: Build Release APK
         working-directory: android
         env:
