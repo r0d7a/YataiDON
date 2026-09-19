@@ -441,7 +441,7 @@ jobs:
             "${{ secrets.ANDROID_KEY_PASSWORD }}" \
             > android/keystore.properties
 
-            - name: Verify keystore
+      - name: Verify keystore
         env:
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
