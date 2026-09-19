@@ -441,6 +441,21 @@ jobs:
             "${{ secrets.ANDROID_KEY_PASSWORD }}" \
             > android/keystore.properties
 
+      - name: Verify keystore
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          echo "Keystore SHA256:"
+          sha256sum android/yataidon-release.jks
+
+          echo "Keystore size:"
+          wc -c < android/yataidon-release.jks
+
+          echo "Testing keystore..."
+          keytool -list \
+            -keystore android/yataidon-release.jks \
+            -storepass "$KEYSTORE_PASSWORD"
+
       - name: Patch config for Android
         run: sed -i 's/^touch_input = false/touch_input = true/' config.toml
 
